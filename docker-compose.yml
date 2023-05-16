@@ -1,0 +1,45 @@
+version: "3"
+services:
+  mysqldb1:
+    image: mysql:5.7
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD:
+      MYSQL_DATABASE: dbmicg
+      MYSQL_USER: root
+      MYSQL_PASSWORD:
+      MYSQL_INITDB_ARGS: "--interactive_timeout=3600 --wait_timeout=3600"
+    ports:
+    - 8889:3306
+    volumes:
+      - './.mysql-data/db:/var/lib/mysql'
+  eureka:
+    image: hamzaargoubi1995/eurekaserver
+    # restart: on-failure
+    ports:
+      - 8081:8081
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.application.name":"Top-i7tiram",
+        "eureka.client.register-with-eureka":false,
+        "eureka.client.fetch-registry":false}'
+  client:
+    depends_on:
+      - mysqldb1
+      - eureka
+    image: ghaieth1995/gestprojwitheurk
+    # restart: on-failure
+    ports:
+      - 8082:8082
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.application.name":"Top-i7tiram",
+        "server.servlet.context-path":"/Top-i7tiram",
+        "spring.datasource.url"  : "jdbc:mysql://mysqldb1:3306/dbmicg?useSSL=false",
+        "spring.datasource.username" : "root",
+        "spring.datasource.password" : "",
+        "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL5InnoDBDialect",
+        "spring.jpa.hibernate.ddl-auto" : "create-drop",
+        "eureka.client.service-url.defaultZone":"http://eureka:8081/eureka/",
+        "eureka.client.register-with-eureka":true}'
+
