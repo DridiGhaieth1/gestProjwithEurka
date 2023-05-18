@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/produit")
+@RequestMapping("/produits")
 public class ProduitController {
 
     @Autowired
@@ -25,6 +25,12 @@ public class ProduitController {
     public Produit getProduitById(@PathVariable Long id) throws ChangeSetPersister.NotFoundException {
         return produitService.getProduitById(id);
     }
+
+    @GetMapping("/getRef/{ref}")
+    public Produit getProduitByRef(@PathVariable Long ref) throws ChangeSetPersister.NotFoundException {
+        return produitService.getProduitByRef(ref);
+    }
+
 
     @PostMapping("")
     public Produit saveProduit(@RequestBody Produit produit) throws ChangeSetPersister.NotFoundException {

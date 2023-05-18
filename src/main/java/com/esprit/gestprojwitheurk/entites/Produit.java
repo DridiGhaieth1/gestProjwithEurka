@@ -11,6 +11,9 @@ public class Produit implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    private long ref;
+
+
     private String nom;
 
     private String description;
@@ -51,11 +54,24 @@ public class Produit implements Serializable {
        this.categorie = categorie;
     }
 
-    public Produit(long id, String nom, String description) {
+    public Produit(long id, String nom, String description,long ref,Categorie categorie) {
         this.id = id;
         this.nom = nom;
         this.description = description;
-      //  this.categorie = categorie;
+        this.categorie = categorie;
+        this.ref=ref;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Long getRef() {
+        return ref;
+    }
+
+    public void setRef(Long ref) {
+        this.ref = ref;
     }
 
     public Produit() {

@@ -38,6 +38,15 @@ public class ProduitServiceImpl implements ProduitService {
     }
 
     @Override
+    public Produit getProduitByRef(Long ref) throws ChangeSetPersister.NotFoundException {
+        Optional<Produit> optionalProduit = produitRepository.findById(ref);
+        if (optionalProduit.isPresent()) {
+            return optionalProduit.get();
+        }
+        throw new ChangeSetPersister.NotFoundException();
+    }
+
+    @Override
     public Produit saveProduit(Produit produit) throws ChangeSetPersister.NotFoundException {
         Categorie categorie = categorieRepository.findById(produit.getCategorie().getId())
                 .orElseThrow(() -> new ChangeSetPersister.NotFoundException());

@@ -43,3 +43,16 @@ services:
         "eureka.client.service-url.defaultZone":"http://eureka:8081/eureka/",
         "eureka.client.register-with-eureka":true}'
 
+  apigateway:
+    depends_on:
+      - eureka
+      - client
+    image: ghaieth1995/gateway
+    # restart: on-failure
+    ports:
+      - 8085:8085
+    environment:
+      SPRING_APPLICATION_JSON: '{
+          "spring.application.name":"GATEWAY-SERVICE",
+          "eureka.client.service-url.defaultZone":"http://eureka:8081/eureka"}'
+

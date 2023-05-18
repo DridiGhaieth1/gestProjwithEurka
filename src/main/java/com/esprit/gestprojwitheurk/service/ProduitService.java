@@ -12,6 +12,7 @@ public interface ProduitService {
 
 
     Produit getProduitById(Long id) throws ChangeSetPersister.NotFoundException;
+    Produit getProduitByRef(Long ref) throws ChangeSetPersister.NotFoundException;
 
     Produit saveProduit(Produit produit) throws ChangeSetPersister.NotFoundException;
 
